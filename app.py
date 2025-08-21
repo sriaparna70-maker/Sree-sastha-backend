@@ -16,15 +16,17 @@ EMAIL_REGEX = re.compile(r"^[^@]+@[^@]+\.[^@]+$")
 
 def init_db():
     with sqlite3.connect(DB_PATH) as con:
-        con.execute("""
-            CREATE TABLE IF NOT EXISTS leads (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL,
-                email TEXT NOT NULL,
-                message TEXT NOT NULL,
-                created_at TEXT NOT NULL
-            )
+        cur = con.cursor()
+        cur.execute("""
+        CREATE TABLE IF NOT EXISTS leads (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            email TEXT,
+            message TEXT,
+            created_at TEXT
+        )
         """)
+        con.commit()
     if not os.path.exists(CSV_PATH):
         with open(CSV_PATH, "w", newline="", encoding="utf-8") as f:
             csv.writer(f).writerow(["id","name","email","message","created_at"])
