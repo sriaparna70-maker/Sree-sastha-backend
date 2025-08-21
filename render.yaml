@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: sree-sastha-backend
+    env: python
+    region: singapore
+    plan: free
+    buildCommand: pip install -r requirements.txt && python -c "import app; app.init_db()"
+    startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT app:app
+    envVars:
+      - key: ZOHO_EMAIL
+        sync: false
+      - key: ZOHO_APP_PASSWORD
+        sync: false
+      - key: ZOHO_TO_EMAIL
+        sync: false
+      - key: ZOHO_SMTP_HOST
+        value: smtp.zoho.in
+      - key: FRONTEND_ORIGIN
+        # Replace this with your GitHub Pages URL when known, e.g. https://yourname.github.io
+        value: "*"
